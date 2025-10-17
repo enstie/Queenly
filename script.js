@@ -192,3 +192,20 @@ console.log('%c✈️ Welcome to Queenly\'s Professional CV',
     'color: #d4af37; font-size: 20px; font-weight: bold; font-family: "Cormorant Garamond", serif;');
 console.log('%cExcellence in Aviation Service', 
     'color: #0b1b3f; font-size: 14px; font-family: "Montserrat", sans-serif;');
+
+// ========================================
+// FAB (FLOATING ACTION BUTTON)
+// ========================================
+
+const fabButton = document.getElementById('fabButton');
+if (fabButton) {
+    fabButton.addEventListener('click', function() {
+        const contactSection = document.querySelector('.contact-section');
+        if (contactSection) {
+            contactSection.scrollIntoView({
+                behavior: prefersReducedMotion ? 'auto' : 'smooth',
+                block: 'start'
+            });
+        }
+    });
+}
