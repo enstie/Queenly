@@ -17,11 +17,28 @@
         <div class="loader-animation"></div>
     </div>
 
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-crest" role="img" aria-label="Queenly monogram"></div>
+            <h1 class="hero-title">Queenly</h1>
+            <p class="hero-tagline">Professional Cabin Crew | Aviation Excellence</p>
+        </div>
+    </section>
+
     <header class="header">
         <div class="container">
             <div class="header-content">
-                <h1 class="name-title">Queenly</h1>
-                <p class="tagline">Professional Cabin Crew | Aviation Excellence</p>
+                <div>
+                    <h1 class="name-title">Queenly</h1>
+                    <p class="tagline">Professional Cabin Crew | Aviation Excellence</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-print" onclick="window.print()" aria-label="Print CV">
+                        <span aria-hidden="true">🖨</span>
+                        <span>Print CV</span>
+                    </button>
+                </div>
             </div>
         </div>
     </header>
@@ -55,6 +72,9 @@
                 </div>
             </section>
 
+            <!-- Section Divider -->
+            <div class="section-divider" aria-hidden="true"></div>
+
             <!-- Professional Summary -->
             <section class="section summary-section" data-animate>
                 <h2 class="section-title">Professional Summary</h2>
@@ -68,6 +88,9 @@
                     </p>
                 </div>
             </section>
+
+            <!-- Section Divider -->
+            <div class="section-divider" aria-hidden="true"></div>
 
             <!-- Work Experience -->
             <section class="section experience-section" data-animate>
@@ -137,6 +160,9 @@
                 </div>
             </section>
 
+            <!-- Section Divider -->
+            <div class="section-divider" aria-hidden="true"></div>
+
             <!-- Education -->
             <section class="section education-section" data-animate>
                 <h2 class="section-title">Education & Certifications</h2>
@@ -169,6 +195,9 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Section Divider -->
+            <div class="section-divider" aria-hidden="true"></div>
 
             <!-- Skills -->
             <section class="section skills-section" data-animate>
@@ -223,23 +252,32 @@
                 </div>
             </section>
 
+            <!-- Section Divider -->
+            <div class="section-divider" aria-hidden="true"></div>
+
             <!-- Awards & Recognition -->
             <section class="section awards-section" data-animate>
                 <h2 class="section-title">Awards & Recognition</h2>
                 <div class="section-content">
                     <div class="awards-grid">
                         <div class="award-item">
-                            <div class="award-icon">🏆</div>
+                            <div class="award-badge">
+                                <div class="award-icon" aria-hidden="true">🏆</div>
+                            </div>
                             <h3>Cabin Crew Excellence Award</h3>
                             <p>Emirates Airlines, 2023</p>
                         </div>
                         <div class="award-item">
-                            <div class="award-icon">⭐</div>
+                            <div class="award-badge">
+                                <div class="award-icon" aria-hidden="true">⭐</div>
+                            </div>
                             <h3>Outstanding Service Recognition</h3>
                             <p>Customer Service Awards, 2022</p>
                         </div>
                         <div class="award-item">
-                            <div class="award-icon">🎖️</div>
+                            <div class="award-badge">
+                                <div class="award-icon" aria-hidden="true">🎖️</div>
+                            </div>
                             <h3>Safety Champion</h3>
                             <p>Etihad Airways, 2019</p>
                         </div>
@@ -255,6 +293,11 @@
             <p class="footer-tagline">Excellence in Aviation Service</p>
         </div>
     </footer>
+
+    <!-- Floating Action Button -->
+    <button class="fab" onclick="document.querySelector('.contact-section').scrollIntoView({ behavior: 'smooth' })" aria-label="Contact Queenly">
+        <span aria-hidden="true">✉</span>
+    </button>
 
     <script src="script.js"></script>
 </body>
