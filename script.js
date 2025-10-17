@@ -1,6 +1,12 @@
 // script.js - Interactive Elements and Animations for Queenly's CV
 
 // ========================================
+// MOTION PREFERENCE CHECK
+// ========================================
+
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ========================================
 // PAGE LOADER
 // ========================================
 
@@ -14,7 +20,7 @@ window.addEventListener('load', function() {
         setTimeout(function() {
             loader.style.display = 'none';
         }, 500);
-    }, 800);
+    }, prefersReducedMotion ? 100 : 800);
 });
 
 // ========================================
@@ -31,7 +37,9 @@ const observer = new IntersectionObserver(function(entries) {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('animate-in');
-            observer.unobserve(entry.target);
+            if (!prefersReducedMotion) {
+                observer.unobserve(entry.target);
+            }
         }
     });
 }, observerOptions);
@@ -40,7 +48,11 @@ const observer = new IntersectionObserver(function(entries) {
 document.addEventListener('DOMContentLoaded', function() {
     const animatedElements = document.querySelectorAll('[data-animate]');
     animatedElements.forEach(element => {
-        observer.observe(element);
+        if (prefersReducedMotion) {
+            element.classList.add('animate-in');
+        } else {
+            observer.observe(element);
+        }
     });
 });
 
@@ -55,7 +67,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         
         if (target) {
             target.scrollIntoView({
-                behavior: 'smooth',
+                behavior: prefersReducedMotion ? 'auto' : 'smooth',
                 block: 'start'
             });
         }
@@ -66,41 +78,45 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // DYNAMIC SECTION HIGHLIGHTS
 // ========================================
 
-const sections = document.querySelectorAll('.section');
-
-sections.forEach(section => {
-    section.addEventListener('mouseenter', function() {
-        this.style.transition = 'all 0.3s ease';
-        this.style.transform = 'scale(1.02)';
-    });
+if (!prefersReducedMotion) {
+    const sections = document.querySelectorAll('.section');
     
-    section.addEventListener('mouseleave', function() {
-        this.style.transform = 'scale(1)';
+    sections.forEach(section => {
+        section.addEventListener('mouseenter', function() {
+            this.style.transition = 'all 0.3s ease';
+            this.style.transform = 'translateY(-4px)';
+        });
+        
+        section.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
     });
-});
+}
 
 // ========================================
 // CONTACT ITEM INTERACTIONS
 // ========================================
 
-const contactItems = document.querySelectorAll('.contact-item');
-
-contactItems.forEach(item => {
-    item.addEventListener('mouseenter', function() {
-        const icon = this.querySelector('.contact-icon');
-        if (icon) {
-            icon.style.transform = 'scale(1.2) rotate(5deg)';
-            icon.style.transition = 'transform 0.3s ease';
-        }
-    });
+if (!prefersReducedMotion) {
+    const contactItems = document.querySelectorAll('.contact-item');
     
-    item.addEventListener('mouseleave', function() {
-        const icon = this.querySelector('.contact-icon');
-        if (icon) {
-            icon.style.transform = 'scale(1) rotate(0deg)';
-        }
+    contactItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            const icon = this.querySelector('.contact-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1.2) rotate(5deg)';
+                icon.style.transition = 'transform 0.3s ease';
+            }
+        });
+        
+        item.addEventListener('mouseleave', function() {
+            const icon = this.querySelector('.contact-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            }
+        });
     });
-});
+}
 
 // ========================================
 // AWARD ITEMS ANIMATION
@@ -109,22 +125,24 @@ contactItems.forEach(item => {
 const awardItems = document.querySelectorAll('.award-item');
 
 awardItems.forEach((award, index) => {
-    award.style.animationDelay = index * 0.2 + 's';
-    
-    award.addEventListener('mouseenter', function() {
-        const icon = this.querySelector('.award-icon');
-        if (icon) {
-            icon.style.transform = 'scale(1.3) rotate(10deg)';
-            icon.style.transition = 'transform 0.4s ease';
-        }
-    });
-    
-    award.addEventListener('mouseleave', function() {
-        const icon = this.querySelector('.award-icon');
-        if (icon) {
-            icon.style.transform = 'scale(1) rotate(0deg)';
-        }
-    });
+    if (!prefersReducedMotion) {
+        award.style.animationDelay = index * 0.2 + 's';
+        
+        award.addEventListener('mouseenter', function() {
+            const badge = this.querySelector('.award-badge');
+            if (badge) {
+                badge.style.transform = 'scale(1.1) rotate(5deg)';
+                badge.style.transition = 'transform 0.4s ease';
+            }
+        });
+        
+        award.addEventListener('mouseleave', function() {
+            const badge = this.querySelector('.award-badge');
+            if (badge) {
+                badge.style.transform = 'scale(1) rotate(0deg)';
+            }
+        });
+    }
 });
 
 // ========================================
@@ -134,18 +152,35 @@ awardItems.forEach((award, index) => {
 document.addEventListener('keydown', function(e) {
     // Press 'T' to scroll to top
     if (e.key === 't' || e.key === 'T') {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+            window.scrollTo({
+                top: 0,
+                behavior: prefersReducedMotion ? 'auto' : 'smooth'
+            });
+        }
     }
     
     // Press 'B' to scroll to bottom
     if (e.key === 'b' || e.key === 'B') {
-        window.scrollTo({
-            top: document.body.scrollHeight,
-            behavior: 'smooth'
-        });
+        if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: prefersReducedMotion ? 'auto' : 'smooth'
+            });
+        }
+    }
+    
+    // Press 'C' to scroll to contact
+    if (e.key === 'c' || e.key === 'C') {
+        if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+            const contactSection = document.querySelector('.contact-section');
+            if (contactSection) {
+                contactSection.scrollIntoView({
+                    behavior: prefersReducedMotion ? 'auto' : 'smooth',
+                    block: 'start'
+                });
+            }
+        }
     }
 });
 
@@ -154,6 +189,23 @@ document.addEventListener('keydown', function(e) {
 // ========================================
 
 console.log('%c✈️ Welcome to Queenly\'s Professional CV', 
-    'color: #b8860b; font-size: 20px; font-weight: bold; font-family: "Cormorant Garamond", serif;');
+    'color: #d4af37; font-size: 20px; font-weight: bold; font-family: "Cormorant Garamond", serif;');
 console.log('%cExcellence in Aviation Service', 
-    'color: #002244; font-size: 14px; font-family: "Montserrat", sans-serif;');
+    'color: #0b1b3f; font-size: 14px; font-family: "Montserrat", sans-serif;');
+
+// ========================================
+// FAB (FLOATING ACTION BUTTON)
+// ========================================
+
+const fabButton = document.getElementById('fabButton');
+if (fabButton) {
+    fabButton.addEventListener('click', function() {
+        const contactSection = document.querySelector('.contact-section');
+        if (contactSection) {
+            contactSection.scrollIntoView({
+                behavior: prefersReducedMotion ? 'auto' : 'smooth',
+                block: 'start'
+            });
+        }
+    });
+}
